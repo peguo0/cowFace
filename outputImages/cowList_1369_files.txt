@@ -1,0 +1,11 @@
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_0-10.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_10-20.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_20-30.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_30-40.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_40-50.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_50-60.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_60-70.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_70-80.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_80-110.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_110-130.txt
+/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_130Nmore.txt
