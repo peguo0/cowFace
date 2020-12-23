@@ -11,16 +11,15 @@ import csv
 import pdb
 
 BAR_BLOCKED_BAILS = (15, 26, 10, 37, 53)
-RATIO = 0.0
-PAUSEDBAILTHRESHOLD = 13
-
-# logDir = '/home/peguo0/cowFace/PT.log'
-# outputPath = '/home/peguo0/cowFace/outputImages' 
-# videoOffsetCsv = '/home/peguo0/cowFace/stat-summary_cameraOffset_135videos_20200401-20200821.csv'
+RATIO = 0.0 # to control the cow face position. range from 0.0-1.0; When RATIO change, BAR_BLOCKED_BAILS needs to be adjusted too. 
+PAUSEDBAILTHRESHOLD = 13 # If bail duration is more than 13 seconds, it treated as a paused bail; we don't do anything with this bail. 
+VIDEO_DURATION = 609000 # Each video is 609s(10m9s) long. 
 
 # On Rampage:
 logDir = '/data/imageProcessingNAS/farmVideos/metadata/8003993'
-outputPath = '/data/gpueval/imageProcessing/peguo0/cowFace/outputImages_actual'
+outputPath = '/data/gpueval/imageProcessing/peguo0/cowFace/outputImages'
+outputSubFolder = 'extractedEids'
+outputSubFolder_ruler = 'extractedFrames_ruler'
 videoOffsetCsv = '/data/gpueval/imageProcessing/peguo0/cowFace/stat-summary_cameraOffset_135videos_20200401-20200821.csv'
 
 def loadVideoOffsetTable(videoOffsetCsv):
@@ -88,24 +87,26 @@ def extractFrames(bailTable, videoFullPath, drawRulerFlag = False, specificBails
             continue
         if row['bailNumber'] not in specificBails:
             continue
-        elif row['syncedStartTime'] == 'NaN' or row['syncedEndTime'] == 'NaN':
+        if row['syncedStartTime'] == 'NaN' or row['syncedEndTime'] == 'NaN':
             continue
-        else:      
-            if row['bailNumber'] not in BAR_BLOCKED_BAILS and isPausedBail(row) == False:
-                pts_msec = getPts(row, videoFullPath)                
-                if pts_msec > 0: 
-                    try:                                   
-                        imgFn = getFrameNameFromMsec(os.path.basename(videoFullPath), pts_msec)
-                        bufferedImagePath = getLicVideoFramePath(imgFn, saveToBufferFolder=False, videoDir=os.path.dirname(videoFullPath), coarseSeeking=True)
-                        img = getLicVideoFrame(imgFn, saveToBufferFolder=False, videoDir=os.path.dirname(videoFullPath), coarseSeeking=True)  
-                        if drawRulerFlag == True:                            
-                            img = drawRuler(img)
+        if row['bailNumber'] not in BAR_BLOCKED_BAILS and isPausedBail(row) == False:
+            pts_msec = getPts(row, videoFullPath)                
+            if pts_msec > 0 and pts_msec < VIDEO_DURATION:
+                try:                                   
+                    imgFn = getFrameNameFromMsec(os.path.basename(videoFullPath), pts_msec)
+                    bufferedImagePath = getLicVideoFramePath(imgFn, videoDir=os.path.dirname(videoFullPath), coarseSeeking=True)
+                    if drawRulerFlag == True:  
+                        img = getLicVideoFrame(imgFn, videoDir=os.path.dirname(videoFullPath), coarseSeeking=True)                            
+                        img = drawRuler(img)
                         cv2.imwrite(bufferedImagePath,img)
-                    except:
-                        print('extract frame error: ',row['videoFullPath'])
-                        bufferedImagePath = 'NaN'
+                except:
+                    print('extract frame error: ', videoFullPath)
+                    continue
+                if drawRulerFlag == True:
+                    saveToOneFolder(bufferedImagePath)
+                else:
                     saveToEidFolders(row, bufferedImagePath)
-
+              
 def getPts(row, videoFullPath):
     videoStartTime = getVideoStartTime(videoFullPath)
     pts_start = round(row['syncedStartTime']-videoStartTime, 3)
@@ -116,11 +117,18 @@ def getPts(row, videoFullPath):
 
 def saveToEidFolders(row, bufferedImagePath):
     if bufferedImagePath != 'NaN':            
-        outputEidFolder = os.path.join(outputPath,row['eid'])            
+        outputEidFolder = os.path.join(outputPath, outputSubFolder, row['eid'])            
         if not os.path.exists(outputEidFolder):
             os.makedirs(outputEidFolder)
             print('created folder: ' + outputEidFolder) 
-        shutil.copy(bufferedImagePath, outputEidFolder)           
+        shutil.copy(bufferedImagePath, outputEidFolder)  
+
+def saveToOneFolder(imagePath):
+    imageFn = os.path.basename(imagePath)
+    outputDir = os.path.join(outputPath, outputSubFolder_ruler)
+    if not os.path.exists(outputDir):
+        os.makedirs(outputDir)
+    shutil.copy(imagePath, outputDir)
 
 def getVideoNLogNUnsync(csvFileFullPath, logDir):
     videoNLogNUnsyncTable = []
@@ -171,31 +179,20 @@ def generateOneVideoCowFace(videoNLogNUnsync, drawRulerFlag = False, specificBai
     print('All image saving finished.')
 
 def main_oneVideo(logDir, drawRulerFlag = False, specificBails = range(1,TOTALBAILS+1)):    
-    videoFullPath = '/home/peguo0/cowFace/videos/202003/20200304/QBH-PlatFace1.shed8003993.20200414_143000.mp4'
+    videoFullPath = '/data/imageProcessingNAS/farmVideos/videos_raw/8003993/202004/20200414/QBH-PlatFace1.shed8003993.20200414_143000.mp4' # normal
+    # videoFullPath = '/data/imageProcessingNAS/farmVideos/videos_raw/8003993/202004/20200409/QBH-PlatFace1.shed8003993.20200409_141000.mp4' # abnormal: camera_chunk == camera
+
     logFileFullPaths = getVideoCorrespondingLogFile(videoFullPath, logDir)
     videoNLogNUnsync = {'videoFullPath': videoFullPath, 'unsyncedSeconds': 0.0, 'logFileFullPaths': logFileFullPaths}    
-    generateOneVideoCowFace(videoNLogNUnsync, specificBails = specificBails, drawRulerFlag = drawRulerFlag)
+    # generateOneVideoCowFace(videoNLogNUnsync, specificBails = specificBails, drawRulerFlag = drawRulerFlag) # do every bail  
+    generateOneVideoCowFace(videoNLogNUnsync, specificBails = [3, 5], drawRulerFlag = True) # do specific and and draw ruler
     
 def main(): 
     # # Do one video:
     # main_oneVideo(logDir)
-    
-    # # Batch processing for 40 videos: 
-    # csvFileFullPath = '/home/peguo0/cowFace/stat-summary_20200615.csv' 
-    # videoNLogNUnsyncTable = getVideoNLogNUnsync(csvFileFullPath, logDir)
-    # for videoNLogNUnsync in videoNLogNUnsyncTable:
-    #     generateOneVideoCowFace(videoNLogNUnsync)
 
-    # # Batch processing for random videos:
-    # csvFileFullPath = '/home/peguo0/cowFace/QBH-PlatFace1_20200215_20200821_sub.vidList'
-    # videoNLogNUnsyncTable = getVideoNLogNUnsync_onlyVideo(csvFileFullPath, logDir)
-    # for videoNLogNUnsync in videoNLogNUnsyncTable:
-    #     generateOneVideoCowFace(videoNLogNUnsync)
-    
-    # Batch processing for 5 months videos:
-    csvFileFullPath = '/home/peguo0/cowFace/QBH-PlatFace1_4samples_after2020401vidList'
-    # Rampage:
-    csvFileFullPath = '/data/gpueval/imageProcessing/peguo0/cowFace/QBH-PlatFace1_20200215_20200821_test.vidList'
+    # Rampage batch:
+    csvFileFullPath = '/data/gpueval/imageProcessing/peguo0/cowFace/vidList/QBH-PlatFace1_20200215_20200821_after20200401_pm.vidList'
     videoOffsetTable = loadVideoOffsetTable(videoOffsetCsv)
     videoNLogNUnsyncTable = getVideoNLogNUnsync_onlyVideo(csvFileFullPath, logDir, videoOffsetTable = videoOffsetTable)
     for videoNLogNUnsync in videoNLogNUnsyncTable:

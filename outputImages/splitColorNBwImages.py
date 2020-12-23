@@ -19,15 +19,6 @@ def getImageTypes(imagePath):
         print('Cannot get image length: ', imagePath)
     return imageType
 
-# def copyImage(imagePath, outputFolder, eid):
-#     eidFolder = os.path.join(outputFolder, eid)
-#     if not os.path.exists(eidFolder):
-#         os.makedirs(eidFolder)
-#         print('created folder: ' + eidFolder)
-#     imageFn = os.path.basename(imagePath)       
-#     if not os.path.exists(os.path.join(eidFolder,imageFn)):
-#         shutil.copy(imagePath, eidFolder)  
-
 def createSynbolicLink(imagePath, outputFolder, eid):
     eidFolder = os.path.join(outputFolder, eid)
     if not os.path.exists(eidFolder):

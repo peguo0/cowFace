@@ -333,7 +333,6 @@ def main():
     allVideoPaths = getAllFilesWithExtension('/home/peguo0/cowFace/videos/202003', '.mp4') 
     videoNCorrespondingLogList = getVideoNCorrespondingLogList(allVideoPaths, logDir)  
     for videoNList in videoNCorrespondingLogList:
-        print('aaa', videoNList)
         generateOneVideoSubtitle(videoNList)
     
 if __name__ == '__main__':

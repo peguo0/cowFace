@@ -13,7 +13,7 @@ import pandas as pd
 
 import seaborn as sns
 
-from tqdm import tqdms
+from tqdm import tqdm
 import cv2
 import math
 import pickle
