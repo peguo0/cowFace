@@ -19,8 +19,9 @@ import math
 import pickle
 
 cropCoords="170,250,1920,1034"
-
-cropCoords="150,10,1650,910" # Peng 
+cropCoords="150,10,1650,910" # Peng - cow
+# cropCoords="150,10,900,910" # Peng - faceUp
+# cropCoords="900,10,1650,910" # Peng - bodyDown
 
 # eidDict structure :
 # eidDict[eid] = dict 

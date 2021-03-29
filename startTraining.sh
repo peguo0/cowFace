@@ -10,7 +10,7 @@ function cmd() {
 }
 
 if [ $# -lt 1 ]; then
-    echo " Usage: $0 <config.py path> [gpuId batchSize] [additional args]"
+    echo " Usage: $0 <config.py path> [gpuId batchSize] [-f] [additional args]"
     echo
     echo "  gpuId    : default 0"
     echo "  batchSize: default 80"
@@ -21,9 +21,13 @@ fi
 confPath=$1; shift
 gpuId=${1:-0}; shift 
 batch=${1:-80}; shift
+force=0
+if [ "$1" == "-f" ]; then
+    force=1
+    shift 
+fi
 moreOpt=$@
 
-set -e
 
 
 configName=$(basename $confPath)
@@ -33,20 +37,23 @@ modelDirName=${modelDirName%".py"}.$(date "+%Y%m%d")
 trainDir=models/$modelDirName
 
 if [ -d $trainDir ]; then   
-    echo
-    echo "WARNING : Ouput folder $trainDir already exists."
-    echo "WARNING: We will continue in 100s and overwrite the working folder. Please Ctrl+C to stop here."
-    len=100
-    while [ $len -gt 0 ]; 
-    do
-        sleep 1s 
-        ((len -= 1))
-        echo -e -n "\rContinue in ${len}s ... Please Ctrl+C to stop here"
-    done
+    if [ $force -eq 0 ]; then
+        echo
+        len=30
+        echo "WARNING : Ouput folder $trainDir already exists."
+        echo "WARNING: We will continue in ${len}s and overwrite the working folder. Please Ctrl+C to stop here."
+        while [ $len -gt 0 ]; 
+        do
+            sleep 1s 
+            ((len -= 1))
+            echo -e -n "\rContinue in ${len}s ... Please Ctrl+C to stop here"
+        done
+    fi
 else 
     mkdir -p $trainDir
-fi
+fi 
 
+set -e 
 log=$trainDir/log
 
 function main() {

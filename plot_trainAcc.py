@@ -51,11 +51,16 @@ def updateDict(logDict, currentStat):
     return logDict                 
 
 def main():
-    trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top100.20201214.20201214/log' # train with 100 cows.
-    trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.20201208.20201221/log' # train with 1000 cows.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top100.20201214.20201214/log' # train with 100 cows.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.20201208.20201221/log' # train with 1000 cows.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.20210113.20210113/log' # train with 1000 cows; 222. 
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.20201208.20210125/log' # train with 1000 cows.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.20210113.20210202/log' # train with 1000 cows.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguot0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.bodyDown.20210305.20210305/log' # train with 1000 cows bodyDown.
+    trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.faceUp.20210305.20210307/log' # train with 1000 cows faceUp.
     outputDir = '/data/gpueval/imageProcessing/peguo0/cowFace/results_heatmap_histgram'
-    outputFn_acc = 'accuracy_train_1000_test.png'
-    outputFn_loss = 'accuracy_train_1000_lossvalue_test.png'
+    outputFn_acc = 'accuracy_train_1000_temp.png'
+    outputFn_loss = 'accuracy_train_1000_lossvalue_temp.png'
     logDict = convertTrainLogToDict(trainLogPath)
     epochs, train_acc, train_lossvalue = logDictToList_train(logDict)
     epochs_val, xNorm, validation_acc = logDictToList_val(logDict)
