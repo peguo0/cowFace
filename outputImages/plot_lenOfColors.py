@@ -7,6 +7,7 @@ import pickle
 
 threshold_colorType = 100000
 # threshold_infrared = 4000
+threshold_infrared = 30000
 
 def plot_histogram(listToPlot):               
     bins = range(0,threshold_colorType,1000)
@@ -38,9 +39,9 @@ def genColorLength(eidFolders):
                 imageColorLength[imagePath] = colorLength
     return imageColorLength
 
-def getLessThan20000(imageColorLength):
+def getLessThan30000(imageColorLength):
     for key,val in imageColorLength.items():
-        if val < 30000:
+        if val < threshold_infrared:
             # print('Image: ', key, ' , color_length: ', val)
             print(key)
 
@@ -60,7 +61,7 @@ def main():
     eidFolders = '/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_color.txt'
     pickleFile = '/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowList_1369_color_colorLength.pkl'        
     imageColorLength = loadFile(pickleFile, eidFolders)    
-    getLessThan20000(imageColorLength)
+    getLessThan30000(imageColorLength)
     # colorLength = list(imageColorLength.values())
     # colorLength = list(filter(None, colorLength))
     # plot_histogram(colorLength)

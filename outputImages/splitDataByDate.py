@@ -8,7 +8,7 @@ libDir=os.path.dirname(os.path.realpath(__file__)) # point to the folder contain
 sys.path.append(libDir)
 import csv
 from datetime import datetime, timedelta
-from splitDataByDate import createSynbolicLink
+from splitColorNBwImages import createSynbolicLink
 
 def getDayList(startDay=-7,endDay=0):
     # Filter day

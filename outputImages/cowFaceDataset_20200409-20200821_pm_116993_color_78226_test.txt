@@ -1,3 +1,0 @@
-/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowFaceDataset_20200409-20200821_pm_116993_color/982091012162172/QBH-PlatFace1.shed8003993.20200806_151000.mp4.pts00358_385.png
-/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowFaceDataset_20200409-20200821_pm_116993_color/982091012162172/QBH-PlatFace1.shed8003993.20200602_151000.mp4.pts00526_572.png
-/data/gpueval/imageProcessing/peguo0/cowFace/outputImages/cowFaceDataset_20200409-20200821_pm_116993/982000189576284/QBH-PlatFace1.shed8003993.20200820_150000.mp4.pts00307_958.png

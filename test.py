@@ -1,16 +1,15 @@
 #! /usr/bin/python3
 
-import os,sys
-
-def main(fvFile):
-    print('bbb', fvFile)
-
-if __name__ == '__main__':
-    print('aaa', sys.argv)
-    print(len(sys.argv))
-
-    if len(sys.argv) < 2:
-        print(" Usage: {} <featurevector.fv>".format(sys.argv[0]))
-        sys.exit(1)
+def twoSum(nums, target):
     
-    main(sys.argv[1])
+    for index, item in enumerate(nums):
+        for index_2 in range(index + 1, len(nums)):
+            if nums[index] + nums[index_2] == target:
+                return [index, index_2]
+    
+    
+nums = [2,7,11,15]
+target = 3
+
+indices = twoSum(nums, target)
+print('aaa', indices)

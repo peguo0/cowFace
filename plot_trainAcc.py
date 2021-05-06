@@ -57,7 +57,11 @@ def main():
     # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.20201208.20210125/log' # train with 1000 cows.
     # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.20210113.20210202/log' # train with 1000 cows.
     # trainLogPath = '/data/gpueval/imageProcessing/peguot0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.bodyDown.20210305.20210305/log' # train with 1000 cows bodyDown.
-    trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.faceUp.20210305.20210307/log' # train with 1000 cows faceUp.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.faceUp.20210305.20210307/log' # train with 1000 cows faceUp.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.20210416.20210416/log' # train with 1000 cows, 112, no BW or purple.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.20210419.20210419/log' # train with 1000 cows, 222, no BW or purple.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.faceUp.20210422.20210423/log' # train with 1000 cows face up only region, 222, no BW or purple.
+    trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.bodyDown.20210422.20210427/log' # train with 1000 cows body down only region, 222, no BW or purple.
     outputDir = '/data/gpueval/imageProcessing/peguo0/cowFace/results_heatmap_histgram'
     outputFn_acc = 'accuracy_train_1000_temp.png'
     outputFn_loss = 'accuracy_train_1000_lossvalue_temp.png'

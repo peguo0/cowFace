@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 
 threshold_colorType = 100000
-threshold_infrared = 30000 # Threshold for color and b/w image; it's set based on hist plot.  
+threshold_infrared = 30000 # Threshold for color and b/w image; it's set based on hist plot.  It was set as 4000. 
 
 def getImageTypes(imagePath):
     img = Image.open(imagePath)

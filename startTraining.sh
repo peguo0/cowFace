@@ -66,7 +66,7 @@ function main() {
 
     cmd export PYTHONPATH=$trainDir
     cmd export CUDA_VISIBLE_DEVICES=$gpuId
-    cmd python3 -u $trainScript --ckpt 2 --network r100 --loss arcface --dataset cowid --models-root=$trainDir --verbose=1000  --per-batch-size $batch $moreOpt
+    cmd python3 -u $trainScript --ckpt 2 --loss arcface --dataset cowid --models-root=$trainDir --verbose=1000  --per-batch-size $batch $moreOpt
 }
 
 

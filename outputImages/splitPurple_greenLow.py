@@ -32,8 +32,5 @@ def main():
     print('P value: ', p)
     print(ttest_ind(purpleImages, bwImages, equal_var = False))
 
-
-
-     
 if __name__ == '__main__':
     main()
