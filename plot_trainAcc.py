@@ -21,20 +21,42 @@ def logDictToList_val(trainingLog):
             validation_acc.append(value['val_acc'])
     return epochs_val, xNorm, validation_acc   
 
+# def convertTrainLogToDict(trainLogPath):
+#     logDict = {}
+#     currentStat = {'epoch': None, 'train_acc': None, 'train_lossvalue': None, 'epoch_val': None, 'xNorm': None, 'val_acc': None}
+#     with open(trainLogPath) as fp:
+#         for line in fp:
+#             if 'Saving epoch' in line:
+#                 currentStat['epoch'] = int(line.split()[-1])
+#                 logDict = updateDict(logDict, currentStat)
+#             if 'Train-acc=' in line:
+#                 currentStat['train_acc'] = float(line.split()[1].split('=')[1])
+#             if 'Train-lossvalue=' in line:
+#                 currentStat['train_lossvalue'] = float(line.split()[1].split('=')[1])
+#             if 'lr-batch-epoch:' in line:
+#                 currentStat['epoch_val'] = int(line.split()[3])
+#             if 'XNorm:' in line:
+#                 currentStat['xNorm'] = float(line.split()[1])
+#             if 'Accuracy-Flip:' in line:
+#                 currentStat['val_acc'] = float(line.split()[1].split('+-')[0])
+#     return logDict
+
 def convertTrainLogToDict(trainLogPath):
     logDict = {}
     currentStat = {'epoch': None, 'train_acc': None, 'train_lossvalue': None, 'epoch_val': None, 'xNorm': None, 'val_acc': None}
-    with open(trainLogPath) as fp:
-        for line in fp:
-            if 'Saving epoch' in line:
-                currentStat['epoch'] = int(line.split()[-1])
-                logDict = updateDict(logDict, currentStat)
+    with open(trainLogPath) as fp:            
+        for line in fp:                
+            # if 'Saving epoch' in line:
+            #     currentStat['epoch'] = int(line.split()[-1])
+            #     logDict = updateDict(logDict, currentStat)
             if 'Train-acc=' in line:
-                currentStat['train_acc'] = float(line.split()[1].split('=')[1])
+                currentStat['train_acc'] = float(line.split()[1].split('=')[1])                    
             if 'Train-lossvalue=' in line:
                 currentStat['train_lossvalue'] = float(line.split()[1].split('=')[1])
+                logDict = updateDict(logDict, currentStat)
             if 'lr-batch-epoch:' in line:
                 currentStat['epoch_val'] = int(line.split()[3])
+                currentStat['epoch'] = int(line.split()[3])
             if 'XNorm:' in line:
                 currentStat['xNorm'] = float(line.split()[1])
             if 'Accuracy-Flip:' in line:
@@ -61,7 +83,9 @@ def main():
     # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.20210416.20210416/log' # train with 1000 cows, 112, no BW or purple.
     # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.20210419.20210419/log' # train with 1000 cows, 222, no BW or purple.
     # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.faceUp.20210422.20210423/log' # train with 1000 cows face up only region, 222, no BW or purple.
-    trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.bodyDown.20210422.20210427/log' # train with 1000 cows body down only region, 222, no BW or purple.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.bodyDown.20210422.20210427/log' # train with 1000 cows body down only region, 222, no BW or purple.
+    trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.112to222.linear.20210528.20210531/log' # train with 1000 cows 112to222 - linear.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.112to222.nearest.20210528.20210605/log' # train with 1000 cows 112to222 - nearest.
     outputDir = '/data/gpueval/imageProcessing/peguo0/cowFace/results_heatmap_histgram'
     outputFn_acc = 'accuracy_train_1000_temp.png'
     outputFn_loss = 'accuracy_train_1000_lossvalue_temp.png'

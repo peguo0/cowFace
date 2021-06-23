@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-trainScript=/data/gpueval/imageProcessing/hitri0/rnd-cowID/insightface/recognition/train.py
-
+# trainScript=/data/gpueval/imageProcessing/hitri0/rnd-cowID/insightface/recognition/train.py
+trainScript=/data/gpueval/imageProcessing/peguo0/cowFaceBackUp/insightface/recognition/train.py
 function cmd() {
    echo "" 
    echo "> $@"
