@@ -18,7 +18,10 @@ def genThumbnail(fvPath,numSample,outDir):
         imgPaths=eidDict[cow]['imgPath']
         imgPaths=imgPaths[:numSample]
 
-        img=imageLibs.mosaic(imgPaths,margin=5,color=(0,0,0),numCol=3,numRow=3,cropx0y0x1y1='0,0,1920,1080')
+        try:
+            img=imageLibs.mosaic(imgPaths,margin=5,color=(0,0,0),numCol=3,numRow=3,cropx0y0x1y1='10,10,1910,1070')
+        except:
+            print('aaaaaa', imgPaths)
         
         fn="{}.png".format(cow)
         outpath=os.path.join(outDir,fn)
@@ -29,5 +32,5 @@ def genThumbnail(fvPath,numSample,outDir):
 
 if __name__ == '__main__':
     # genThumbnail('sideDataset.20190401-20190430.fv',9,'blackCows')
-    genThumbnail('cowId.faceBennett.20200801-20200821_model_top1000.222_epoch40_excludeBWP.fv',9,'blackCows')
-    
+    # genThumbnail('cowId.faceBennett.20200801-20200821_model_top1000.222_epoch40_excludeBWP.fv',9,'991Cows')
+    genThumbnail('cowId.faceBennett.20200409-20200731_top1000_model_top1000.222_epoch50.fv',9,'1000Cows')

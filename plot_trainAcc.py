@@ -84,8 +84,13 @@ def main():
     # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.20210419.20210419/log' # train with 1000 cows, 222, no BW or purple.
     # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.faceUp.20210422.20210423/log' # train with 1000 cows face up only region, 222, no BW or purple.
     # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.222.bodyDown.20210422.20210427/log' # train with 1000 cows body down only region, 222, no BW or purple.
-    trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.112to222.linear.20210528.20210531/log' # train with 1000 cows 112to222 - linear.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.112to222.linear.20210528.20210531/log' # train with 1000 cows 112to222 - linear.
     # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_top1000.112to222.nearest.20210528.20210605/log' # train with 1000 cows 112to222 - nearest.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_uniq_top1000.20210716.20210716/log' # train with 1000 cows no changed EID - 112.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_uniq_top1000.222.20210719.20210720/log' # train with 1000 cows no changed EID - 222.
+    trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_uniq_top1000.222.faceUp.20210719.20210721/log' # train with 1000 cows no changed EID - 222-faceUp.
+    # trainLogPath = '/data/gpueval/imageProcessing/peguo0/cowFace/models/cowId.faceBennett.20200401-20200731.color_uniq_top1000.222.bodyDown.20210719.20210721/log' # train with 1000 cows no changed EID - 222-bodyDown.
+
     outputDir = '/data/gpueval/imageProcessing/peguo0/cowFace/results_heatmap_histgram'
     outputFn_acc = 'accuracy_train_1000_temp.png'
     outputFn_loss = 'accuracy_train_1000_lossvalue_temp.png'
@@ -93,27 +98,47 @@ def main():
     epochs, train_acc, train_lossvalue = logDictToList_train(logDict)
     epochs_val, xNorm, validation_acc = logDictToList_val(logDict)
 
+    # ##############################
+    # # Plot section:
+    # plt.figure(1)
+    # ax = plt.subplot(111)
+    # ax.plot(epochs, train_acc, label='training-acc')
+    # ax.plot(epochs_val, validation_acc, label = 'validation-acc')
+    # ax.legend()
+    # plt.xlabel('Epoch')
+    # plt.ylabel('Accuracy')
+    # plt.title('Epoch - Accuracy')
+    # plt.savefig(os.path.join(outputDir, outputFn_acc))
+
+    # plt.figure(2)
+    # ax = plt.subplot(111)
+    # ax.plot(epochs, train_lossvalue, label='train_loss_value')
+    # ax.plot(epochs_val, xNorm, label='xNorm')
+    # ax.legend()
+    # plt.xlabel('Epoch')
+    # plt.ylabel('Loss Value')
+    # plt.title('Epoch - Loss-value')
+    # plt.savefig(os.path.join(outputDir, outputFn_loss))
+
     ##############################
     # Plot section:
     plt.figure(1)
     ax = plt.subplot(111)
-    ax.plot(epochs, train_acc, label='training-acc')
-    ax.plot(epochs_val, validation_acc, label = 'validation-acc')
-    ax.legend()
-    plt.xlabel('Epoch')
-    plt.ylabel('Accuracy')
-    plt.title('Epoch - Accuracy')
-    plt.savefig(os.path.join(outputDir, outputFn_acc))
+    ax.plot(epochs, train_acc, color = 'black')
+    # ax.plot(epochs_val, validation_acc, label = 'validation-acc')
+    ax.set_xlabel("Epoch", fontsize=14)
+    ax.set_ylabel("Train Accuracy", color='black', fontsize=14)
 
-    plt.figure(2)
-    ax = plt.subplot(111)
-    ax.plot(epochs, train_lossvalue, label='train_loss_value')
-    ax.plot(epochs_val, xNorm, label='xNorm')
-    ax.legend()
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss Value')
-    plt.title('Epoch - Loss-value')
-    plt.savefig(os.path.join(outputDir, outputFn_loss))
+    ax2 = ax.twinx()
+    ax2.plot(epochs, train_lossvalue, color = 'orangered')
+    ax2.set_ylabel("Loss Value", color = 'orangered', fontsize=14)
+
+
+    # ax.legend()
+    # plt.xlabel('Epoch')
+    # plt.ylabel('Accuracy')
+    # plt.title('Epoch - Accuracy')
+    plt.savefig(os.path.join(outputDir, outputFn_acc))
     
 if __name__ == '__main__':
     main()

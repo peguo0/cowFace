@@ -109,7 +109,7 @@ if __name__ == "__main__":
     parser.add_argument("modelepoch", type=int)
     parser.add_argument("outPath",help="output file path")
     
-    parser.add_argument("--imsize", default=112, type=int)
+    parser.add_argument("--imsize", default=222, type=int)
     parser.add_argument("--gpu", default=0, type=int, help="gpu id")
     parser.add_argument("--flip", default=0, type=int, help="whether do lr flip aug")
     parser.add_argument("--crop", default=defaultCropCoords, type=str, help="Crop coordinate")
